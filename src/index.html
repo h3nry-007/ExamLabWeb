@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Linux Exam</title>
+
+    <style>
+      body {
+        background-color: #021024;
+        color: lavender;
+      }
+      header,
+      div {
+        text-align: center;
+        border-bottom: 1px solid #021024;
+        background-color: #021024;
+      }
+      h3 {
+        font-size: 70px;
+        font-family: "Courier New", Courier, monospace;
+        color: #c21e56;
+      }
+      input {
+        background-color: #021024;
+        font-size: 30px;
+        font-family: "Courier New", Courier, monospace;
+        border-radius: 20px;
+        height: 50px;
+        border: 1px solid #c21e56;
+        margin: 20px 20px;
+        color: white;
+        padding: 20px;
+      }
+
+      #btnDownload, #btnUpload {
+        height: 80px;
+        background-color: #c21e56;
+      }
+
+      p {
+        font-size: 40px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      
+
+			a.download-button {
+				font-family: "Courier New", Courier, monospace;
+				text-decoration: none;
+				color: #fff;
+				padding: 20px 40px;
+				border-radius: 20px;
+        background-color: #021024;
+			}
+
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"
+    />
+  </head>
+  <body>
+    <header>
+      <br>
+      <img src="deepblue_whiteonly.png" alt="">
+      <h3>Linux For Robotics & Everyone Final Task </h3>
+    </header>
+
+    <div id="dataShow">
+      <p>onLocation : Desktop</p>
+    </div>
+
+    <!-- form div for Download-->
+    <div>
+      <form id="myForm">
+        <p>Insert to Download</p>
+        <input
+          type="text"
+          id="command"
+          size="100"
+          placeholder="<shell copy command>  <user>@<ipaddress><source/file/path> </your/path>"
+        />
+        <input
+          type="button"
+          value="Download"
+          size="100px"
+          id="btnDownload"
+          onclick="download()"
+        />
+      </form>
+    </div>
+
+    <!-- Downlaod Fancy Box -->
+    <div id="download-dialog" style="display: none; min-width: 300px; height: auto; background-color: #c21e56;">
+      <p style="color: white;">Download Linux Questions</p>
+      <a href="https://drive.google.com/uc?export=download&id=1XMmmDRh4KF-JVfqot6xjL0hiES9tEbEu" class="download-button">Download PDF File</a>
+      <!-- https://drive.google.com/file/d/1XMmmDRh4KF-JVfqot6xjL0hiES9tEbEu/view?usp=sharing -->
+    </div>
+
+    <!-- Form Div for Upload  -->
+    <div>
+      <form action="">
+        <p>Insert to Upload </p>
+        <input
+          type="text"
+          id="command2"
+          size="100"
+          placeholder="<ftp command> <username@ipaddress>"
+        />
+        <input
+          type="button"
+          value="Upload"
+          size="100px"
+          id="btnUpload"
+          onclick="upload()"
+        />
+      </form>
+    </div>
+
+    <!-- Upload Fancy Box -->
+    <div id="upload-dialog" style="display: none; min-width: 300px; height: auto; background-color: #c21e56;">
+      <p style="color: white;">Upload Your Answer</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfWWhH4i9waBwZOeLNLxXJIpMjeVYmnh9r4sW9ufhcIsJgr1A/viewform?usp=sf_link" class="download-button">Upload <a>
+    </div>
+
+    <!-- JavaScript Code is Here! -->
+    <!-- To show Data  -->
+    <script>
+      var username = "henry";
+      var ipaddress = "192.168.1.17";
+      var password = "henry";
+
+      // to show username & ip address;
+      var user = document.createElement("p");
+      user.textContent = "Username : " + username;
+      
+      var ip = document.createElement("p");
+      ip.textContent = "IP Address : " + ipaddress;
+
+      var pwd = document.createElement("p");
+      pwd.textContent = "Password : " + password;
+      
+      var divv = document.getElementById("dataShow");
+      divv.appendChild(user);
+      divv.appendChild(pwd);
+      divv.appendChild(ip);
+    </script>
+      
+    <!-- Download Function Here -->
+    <script>
+      var mustBe = "scp henry@192.168.1.17:/home/henry/Desktop/";
+      
+      function download() {
+        var inputData = document.getElementById("command").value;
+        console.log("The value is:  " + inputData);
+        if (inputData.startsWith(mustBe)) {
+          /* Get server password */
+          let kaliPass = prompt("Server Password");
+          if(kaliPass == password){
+            /* Popup Download File */
+            Fancybox.show([{ src: "#download-dialog", type: "inline" }]);
+          }else {
+            alert("Wrong Password for server")
+          }
+          
+        } else {
+          alert("Try Again");
+        }
+      }
+    </script>
+    
+    <!-- Upload Function Here -->
+    <script>
+      function upload(){
+        var inputCommand = document.getElementById("command2").value;
+        
+        if (inputCommand === "sftp henry@192.168.1.17"){
+          
+          /* Get Server Password */
+          let kaliPass = prompt("Server Password");
+          if(kaliPass == password){
+            
+            /* Popup Download File */
+            let userInput = prompt('Enter Upload command');
+            if (userInput !== null && userInput === "put") {
+              alert('Right, You entered: ' + userInput);
+              Fancybox.show([{ src: "#upload-dialog", type: "inline" }]);
+            /* Return if server upload commadn is wrong */
+            } else {
+              alert('Upload Command for ftp is Wrong!');
+            }
+
+            /* Return if kali password is wrong */
+          }else {
+            alert("Wrong Password for server")
+          }
+          
+        /* Return if command input is wrong */
+        }else{
+          alert("Wrong");
+        }
+      }
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+
+    <script>
+      Fancybox.bind("[data-fancybox]", {
+        // Custom options for all galleries
+      });
+    </script>
+
+  </body>
+</html>
